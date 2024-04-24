@@ -23,12 +23,15 @@ export default function forgetPassword() {
       <TextInput
         style={styles.input}
         placeholder="E-mail address"
-        onChangeText={(text)=> setEmail(text)}
+        onChangeText={(text) => setEmail(text)}
         value={email}
       />
       <TouchableOpacity style={styles.resetButton} onPress={handleForget}>
         <Text style={styles.buttonText}>Reset Password</Text>
       </TouchableOpacity>
+
+     
+      <Text style={styles.tagline}>Where Every Bite Tells a Flavorful Story!</Text>
     </View>
   );
 }
@@ -38,20 +41,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F8F8F8', 
+    borderTopRightRadius: 30,
+    borderTopLeftRadius: 30,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#333', 
     marginBottom: 20,
-    fontFamily: 'Arial',
   },
   subtitle: {
     fontSize: 16,
-    color: 'black',
+    color: '#666', 
     marginBottom: 30,
-    alignItems:'center'
+    textAlign: 'center',
   },
   input: {
     width: '80%',
@@ -60,18 +64,22 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 15,
-    // fontFamily: 'Arial',
   },
   resetButton: {
-    backgroundColor: '#FF6347',
+    backgroundColor: '#FF4500',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 8,
+    borderRadius: 18,
   },
   buttonText: {
-    color: '#FFFFFF',
+    color: '#FFF', 
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
+  },
+  tagline: {
+    fontSize: 14,
+    color: '#666', 
+    marginTop: 10,
   },
 });
