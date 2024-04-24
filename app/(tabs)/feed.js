@@ -63,41 +63,40 @@ const Feed = () => {
 
   return (
     <View style={styles.container}>
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.safeArea}>
+
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.input}
-            placeholder="Search for"
+            placeholder="Search for products"
             onChangeText={(t) => { setText(t); searchItems(t) }}
           />
           <Pressable
             onPress={() => searchItems(text)}
             style={({ pressed }) => [
               {
-                opacity: pressed ? 0.2 : 1,
+                opacity: pressed ? 0.6 : 1,
               },
-              styles.press,
+              styles.searchButton,
             ]}
           >
-            <Text>Search Items</Text>
+            <Text style={styles.searchButtonText}>Search</Text>
           </Pressable>
           <Pressable
             onPress={resetData}
             style={({ pressed }) => [
               {
-                opacity: pressed ? 0.2 : 1,
+                opacity: pressed ? 0.6 : 1,
               },
-              styles.press,
+              styles.resetButton,
             ]}
           >
-            <Text>Reset</Text>
+            <Text style={styles.resetButtonText}>Reset</Text>
           </Pressable>
         </View>
-        <Pressable style={styles.signOutButton} onPress={handleSignOut}>
-          <Text style={styles.signOutButtonText}>Sign Out</Text>
-        </Pressable>
+
         <FlatList
-          style={styles.backYellow}
+          style={styles.productList}
           data={data}
           renderItem={({ item }) => (
             <Item
@@ -108,6 +107,9 @@ const Feed = () => {
           )}
           ListEmptyComponent={<ActivityIndicator size="large" color="#0000ff" />}
         />
+        <Pressable style={styles.signOutButton} onPress={handleSignOut}>
+          <Text style={styles.signOutButtonText}>Sign Out</Text>
+        </Pressable>
       </SafeAreaView>
     </View>
   );
@@ -118,54 +120,83 @@ export default Feed;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: "5%",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: '#ADD8E6',
+    backgroundColor: '#F8F8F8',
+  },
+  safeArea: {
+    flex: 1,
+    padding: 20,
+    alignItems: 'center',
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
+    width: '100%',
   },
   input: {
     flex: 1,
     height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    paddingHorizontal: 10,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 25,
+    paddingHorizontal: 15,
     marginRight: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
   },
-  press: {
-    padding: 10,
-    backgroundColor: "lightblue",
-    borderRadius: 5,
-    marginLeft: 10,
+  searchButton: {
+    backgroundColor: '#FF4500',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 18,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+  },
+  searchButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#FFF',
+  },
+  resetButton: {
+    backgroundColor: '#DDDDDD',
+    paddingHorizontal: 20,
+    paddingVertical: 12,
+    borderRadius: 18,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+  },
+  resetButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  productList: {
+    width: '100%',
   },
   signOutButton: {
-    backgroundColor: "blue",
-    paddingVertical: 5,
-    paddingHorizontal: 5,
-    borderRadius: 5,
-    marginTop: 10,
+    backgroundColor: "#FF4500",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 18,
+    marginTop: 20,
     alignSelf: 'center',
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
   },
   signOutButtonText: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
-  },
-  userText: {
-    fontSize: 20,
-    marginBottom: 10,
-  },
-  backYellow: {
-    borderRadius: 10,
-    padding: 10,
-    width: '100%',
-  },
-  emptyText: {
-    fontSize: 20,
-    textAlign: "center",
   },
 });
