@@ -9,14 +9,14 @@ export default function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const  handleSignUp =async () => {
-    try{
-      await register(email,password)
-      router.replace('/todo')
-      
+  const handleSignUp = async () => {
+    try {
+      await register(email, password)
+      router.replace(`/profile?userid ${userid}&username=${username}&email=${email}`);
+
     }
-    catch(e){
-    
+    catch (e) {
+
       window.alert(e.code || 'unknown error');
 
     }
@@ -47,7 +47,7 @@ export default function SignUpPage() {
         </TouchableOpacity>
       </Text>
 
-    
+
       <Text style={styles.tagline}>Where Every Bite Tells a Flavorful Story!</Text>
     </View>
   );
@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F8F8F8', 
+    backgroundColor: '#F8F8F8',
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333', 
+    color: '#333',
     marginBottom: 20,
   },
   input: {
@@ -77,28 +77,28 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   loginButton: {
-    backgroundColor: '#FF4500', 
+    backgroundColor: '#FF4500',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 18,
   },
   buttonText: {
-    color: '#FFF', 
+    color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   signUpText: {
     fontSize: 18,
-    color: '#666', 
+    color: '#666',
     marginTop: 20,
   },
   linkText: {
-    color: '#FF4500', 
+    color: '#FF4500',
   },
   tagline: {
     fontSize: 14,
-    color: '#666', 
+    color: '#666',
     marginTop: 10,
   },
 });

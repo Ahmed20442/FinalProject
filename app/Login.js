@@ -1,24 +1,17 @@
 import { auth } from '../firebase/firebase';
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity,ImageBackground } from 'react-native';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, ImageBackground } from 'react-native';
 import { Link, router } from 'expo-router';
 import { logIn } from '../firebase/auth';
 import { getAuth } from 'firebase/auth';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-<<<<<<< HEAD
   // Add your login logic here
   const handleLogin = async () => {
     try {
       await logIn(email, password)
-=======
-  const handleLogin =async () => {
-    try{
-      await logIn(email,password)
->>>>>>> cff7f844fe7e6c2a2aaf35b545370126f5f669c0
-      router.replace('/todo')
+      router.replace('/profile')
 
     }
     catch (e) {
@@ -32,18 +25,18 @@ export default function LoginScreen() {
       const auth = getAuth();
       const user = auth.currentUser;
       const userid = user.uid;
-      if (userid === "GqpEbypLN3Y2A5Dx2sQuaTyqyom1") {
+      if (userid === "urwnYypuXKVRWQogwEt7fYCwT572") {
         router.replace('/Admin');
       }
       else {
-        router.replace(`/todo?userid ${userid}&username=${username}`);
+        router.replace(`/profile?userid ${userid}&username=${username}&email=${email}`);
       }
     }
   };
 
   return (
     <View style={styles.container}>
-     
+
       {/* <Image 
         source={require('./assets/img5.jpg')} 
         style={styles.image}
@@ -91,7 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F8F8F8', 
+    backgroundColor: '#F8F8F8',
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
@@ -104,7 +97,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333', 
+    color: '#333',
     marginBottom: 20,
   },
   input: {
@@ -116,20 +109,20 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   loginButton: {
-    backgroundColor: '#FF4500', 
+    backgroundColor: '#FF4500',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 18,
   },
   buttonText: {
-    color: '#FFF', 
+    color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   signUpText: {
     fontSize: 18,
-    color: '#666', 
+    color: '#666',
     marginTop: 20,
   },
   linkText: {
@@ -137,7 +130,7 @@ const styles = StyleSheet.create({
   },
   tagline: {
     fontSize: 14,
-    color: '#666', 
+    color: '#666',
     marginTop: 10,
   },
 });
