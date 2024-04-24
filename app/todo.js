@@ -1,71 +1,57 @@
-import { signOut, updateCurrentUser } from 'firebase/auth';
-import { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native';
-import { router } from 'expo-router';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, FlatList } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { auth } from '../firebase/firebase';
+import { router } from 'expo-router';
+
+
+
 export default function Todos() {
-  const [task, setTask] = useState('');
-  const [tasks, setTasks] = useState([]);
+  const [todoList, setTodoList] = useState([]);
 
-  const handleAddTask = () => {
-    if (task.trim() === '') {
-      alert('Please enter a task');
-      return;
+  const handlesignout = async () => {
+    try {
+      await auth.signOut();
+      router.replace('/Login')
+    } catch (error) {
+      console.error("Error signing out: ", error);
     }
-    setTasks([...tasks, { id: Date.now().toString(), task }]);
-    setTask('');
-  };
-  const handlesignout=()=>{
-    try{
-     auth.signOut()
-    router.replace('/Login')
-
-    }
-    catch(e){
-
-    }
-  }
-
-  const handleRemoveTask = (id) => {
-    setTasks(tasks.filter((task) => task.id !== id));
   };
 
-  const renderItem = ({ item }) => (
-    <View style={styles.taskContainer}>
-      <Text style={styles.taskText}>{item.task}</Text>
-      <TouchableOpacity onPress={() => handleRemoveTask(item.id)}>
-        <Text style={styles.removeText}>Remove</Text>
-      </TouchableOpacity>
-    </View>
-  );
+  useEffect(() => {
+    fetchTodos();
+  }, []);
+
+  const fetchTodos = async () => {
+    try {
+      const tasks = await AsyncStorage.getItem('tasks');
+      if (tasks) {
+        setTodoList(JSON.parse(tasks));
+      }
+    } catch (error) {
+      console.error("Error fetching todos: ", error);
+    }
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Todos</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Enter a task"
-          value={task}
-          onChangeText={setTask}
-        />
-        <TouchableOpacity style={styles.addButton} onPress={handleAddTask}>
-          <Text style={styles.buttonText}>Add</Text>
-        </TouchableOpacity>
-      </View>
       <FlatList
-        data={tasks}
+        data={todoList}
         keyExtractor={(item) => item.id}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <View style={styles.taskContainer}>
+            <Text style={styles.taskText}>{item.task}</Text>
+          </View>
+        )}
         style={styles.list}
       />
-       <TouchableOpacity style={styles.addButton} onPress={handlesignout}>
-          <Text style={styles.buttonText}>sign out</Text>
-        </TouchableOpacity>
+      <TouchableOpacity style={styles.signOutButton} onPress={handlesignout}>
+        <Text style={styles.buttonText}>Sign Out</Text>
+      </TouchableOpacity>
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

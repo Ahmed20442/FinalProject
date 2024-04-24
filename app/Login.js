@@ -3,20 +3,35 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { Link, router } from 'expo-router';
 import { logIn } from '../firebase/auth';
+import { getAuth } from 'firebase/auth';
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   // Add your login logic here
-  const handleLogin =async () => {
-    try{
-      await logIn(email,password)
+  const handleLogin = async () => {
+    try {
+      await logIn(email, password)
       router.replace('/todo')
-      
+
     }
-    catch(e){
-    
+    catch (e) {
+
       window.alert(e.code || 'unknown error');
+    }
+  };
+  const handleLoginandnavigate = async () => {
+    const username = await handleLogin();
+    if (username !== null) {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      const userid = user.uid;
+      if (userid === "GqpEbypLN3Y2A5Dx2sQuaTyqyom1") {
+        router.replace('/Admin');
+      }
+      else {
+        router.replace(`/todo?userid ${userid}&username=${username}`);
+      }
     }
   };
 
@@ -36,7 +51,7 @@ export default function LoginScreen() {
         value={password}
         onChangeText={setPassword}
       />
-      <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+      <TouchableOpacity style={styles.loginButton} onPress={handleLoginandnavigate}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
       <Text style={styles.signUpText}>
@@ -46,7 +61,7 @@ export default function LoginScreen() {
         </Link>
       </Text>
       <Text style={styles.signUpText}>
-        
+
         <Link href={'/forgetPassword'}>
           <Text style={styles.linkText}> forgetPassword</Text>
         </Link>
