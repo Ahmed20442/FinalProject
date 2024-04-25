@@ -25,7 +25,7 @@ export default function LoginScreen() {
       const auth = getAuth();
       const user = auth.currentUser;
       const userid = user.uid;
-      if (userid === "urwnYypuXKVRWQogwEt7fYCwT572") {
+      if (userid === "FxKJEi0jlcNLdPlg2I04KxXzvNK2") {
         router.replace('/Admin');
       }
       else {

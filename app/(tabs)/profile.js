@@ -48,7 +48,7 @@
 //     <View style={styles.container}>
 //       <SafeAreaView style={styles.safeArea}>
 //         <Text style={styles.text}>{username ? `Welcome, ${username}` : "Welcome, Guest"}</Text>
-        
+
 //         {/* <Pressable style={styles.signOutButton} onPress={handleSignOut}>
 //           <Text style={styles.signOutButtonText}>Sign Out</Text>
 //         </Pressable> */}
@@ -94,7 +94,7 @@
 // });
 import React, { useState } from "react";
 import { StyleSheet, Text, View, SafeAreaView, Pressable, TextInput } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, router } from "expo-router";
 import { getAuth, signOut, updateProfile, updateEmail, updatePassword } from "firebase/auth";
 
 const Profile = () => {
@@ -135,11 +135,11 @@ const Profile = () => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-        
+
         <Text style={styles.appName}>BurgerzzaHub</Text>
 
         <Text style={styles.welcomeText}>Welcome</Text>
-        
+
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Full Name</Text>
           <View style={styles.inputWrapper}>
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#FF4500', 
+    color: '#FF4500',
   },
   welcomeText: {
     fontSize: 28,

@@ -116,7 +116,7 @@ export default function SignUpPage() {
   const handleSignUp = async () => {
     try {
       const { userid, username } = await register(email, password, name);
-      router.replace(`/profile?userid=${userid}&username=${username}&email=${user.email}`);
+      router.replace(`/Login`);
     } catch (e) {
       window.alert(e.code || 'unknown error');
     }
@@ -125,21 +125,21 @@ export default function SignUpPage() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Create Your Account</Text>
-      
+
       <TextInput
         style={styles.input}
         placeholder="Full Name"
         value={name}
         onChangeText={setName}
       />
-      
+
       <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
       />
-      
+
       <TextInput
         style={styles.input}
         placeholder="Password"
@@ -147,11 +147,11 @@ export default function SignUpPage() {
         secureTextEntry
         onChangeText={setPassword}
       />
-      
+
       <TouchableOpacity style={styles.loginButton} onPress={handleSignUp}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-      
+
       <Text style={styles.signUpText}>
         Already have an account?
         <TouchableOpacity onPress={() => router.push('Login')}>
