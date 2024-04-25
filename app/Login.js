@@ -188,7 +188,11 @@ const LoginScreen = () => {
       const auth = getAuth();
       const user = auth.currentUser;
       const userId = user.uid;
-      router.push(`/profile?userId=${userId}&username=${username}&email=${email}`);
+      if (userId === "CqtHCH6ZoCegKomjvNWTZFYDdi23") {
+        router.replace('/Admin');
+      } else {
+        router.push(`/profile?userId=${userId}&username=${username}&email=${email}`);
+      }
     }
   };
 
