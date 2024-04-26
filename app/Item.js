@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable, TouchableOpacity } from 'react-native';
 import { router } from "expo-router";
 
 export default function Item({ name, price, image, text }) {
@@ -47,5 +47,5 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     color: '#888',
-  },
+  }
 });
