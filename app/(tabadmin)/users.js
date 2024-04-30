@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, FlatList, Alert, Modal } from 'react-native';
 import { db } from '../../firebase/firebase';
 import { router } from 'expo-router';
-import { collection, getDocs } from '@firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from '@firebase/firestore';
 
 export default function Users() {
     const [users, setUsers] = useState([]);
@@ -30,6 +30,17 @@ export default function Users() {
     const handleUserPress = (user) => {
         setSelectedUser(user);
         setModalVisible(true);
+    };
+
+    const handleDeleteUser = async () => {
+        try {
+            await deleteDoc(doc(db, 'users', selectedUser.id));
+            setModalVisible(false);
+            setUsers(users.filter(user => user.id !== selectedUser.id));
+            Alert.alert('User deleted successfully');
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
     };
 
     return (
@@ -62,6 +73,9 @@ export default function Users() {
                     <Text style={styles.Text}>Password: {selectedUser?.password}</Text>
                     <Text style={styles.Text}>Email: {selectedUser?.email}</Text>
                     <Text style={styles.Text}>ID: {selectedUser?.id}</Text>
+                    <TouchableOpacity onPress={handleDeleteUser}>
+                        <Text style={styles.deleteButton}>Delete User</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => setModalVisible(false)}>
                         <Text style={styles.closeButton}>Close</Text>
                     </TouchableOpacity>
@@ -123,6 +137,13 @@ const styles = StyleSheet.create({
     closeButton: {
         marginTop: 20,
         color: '#FF4500',
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 16,
+    },
+    deleteButton: {
+        marginTop: 20,
+        color: 'red',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 16,
