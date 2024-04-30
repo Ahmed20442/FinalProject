@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   infoContainer: {
-    // flex: 1,
+    
   },
   name: {
     fontSize: 18,
@@ -49,3 +49,5 @@ const styles = StyleSheet.create({
     color: '#888',
   }
 });
+Item.js
+

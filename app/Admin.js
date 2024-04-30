@@ -43,8 +43,8 @@ export default function Admin() {
             setName('');
             setPrice('');
             setImage('');
-            setModalVisible(false); // Close modal after adding product
-            fetchData(); // Fetch updated data after adding product
+            setModalVisible(false);
+            fetchData();
         } catch (error) {
             console.error('Error adding product: ', error);
         }
@@ -54,7 +54,7 @@ export default function Admin() {
         try {
             await deleteDoc(doc(db, 'Products', productId));
             Alert.alert('Product deleted successfully');
-            fetchData(); // Fetch updated data after deleting product
+            fetchData();
         } catch (error) {
             console.error('Error deleting product: ', error);
         }
@@ -78,8 +78,8 @@ export default function Admin() {
             setName('');
             setPrice('');
             setImage('');
-            setModalVisible(false); // Close modal after updating product
-            fetchData(); // Fetch updated data after updating product
+            setModalVisible(false);
+            fetchData();
         } catch (error) {
             console.error('Error updating product: ', error);
         }
@@ -181,24 +181,26 @@ export default function Admin() {
                     />
                 )}
             />
+            
             <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
                 <Text style={styles.buttonText}>Sign Out</Text>
             </TouchableOpacity>
         </View>
     );
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#ADD8E6',
+        backgroundColor: '#F8F8F8',
         padding: 20,
+        alignItems: 'center',
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#333',
     },
     input: {
         height: 40,
@@ -207,14 +209,58 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         paddingHorizontal: 10,
         marginBottom: 10,
+        backgroundColor: '#FFFFFF',
+        width: '100%',
+    },
+    buttonContainer: {
+        flexDirection: 'column',
+        alignItems: 'center',
+        marginBottom: 20,
     },
     addButton: {
-        backgroundColor: '#FF6347',
-        paddingVertical: 10,
+        backgroundColor: '#FF4500',
+        paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 8,
-        marginTop: 20,
+        borderRadius: 18,
+        marginBottom: 10,
         alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+    },
+    editButton: {
+        backgroundColor: '#008000', // Change color for edit button
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 18,
+        marginBottom: 10,
+        alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+    },
+    deleteButton: {
+        backgroundColor: '#FF6347',
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 18,
+        marginBottom: 10,
+        alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+    },
+    buttonText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
     modalContainer: {
         flex: 1,
@@ -234,34 +280,45 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
+        color: '#333',
     },
     cancelButton: {
-        backgroundColor: '#CCCCCC',
-        paddingVertical: 10,
+        backgroundColor: '#DDDDDD',
+        paddingVertical: 12,
         paddingHorizontal: 20,
-        borderRadius: 8,
-        marginTop: 20,
+        borderRadius: 18,
+        marginBottom: 10,
         alignSelf: 'center',
-    },
-    deleteButton: {
-        backgroundColor: '#FF6347',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 8,
-        marginTop: 10,
-        alignSelf: 'center',
-    },
-    buttonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
     },
     productItem: {
-        backgroundColor: '#FFFFFF',
         padding: 10,
         marginBottom: 10,
         borderRadius: 8,
         elevation: 2,
+        width: '100%',
+    },
+    productItemOdd: {
+        backgroundColor: '#E0E0E0',
+    },
+    productItemEven: {
+        backgroundColor: '#D3D3D3',
+    },
+    signOutButton: {
+        backgroundColor: "#FF4500",
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 18,
+        marginTop: 20,
+        alignSelf: 'center',
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
     },
 });

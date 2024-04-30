@@ -6,7 +6,6 @@ import { db } from "../../firebase/firebase";
 import { useLocalSearchParams, router } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
 import { ActivityIndicator } from 'react-native';
-import p1 from"../../assets/p1.jpg";
 import Item from "../Item";
 
 
