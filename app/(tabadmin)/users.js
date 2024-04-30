@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, FlatList, Modal } from 'react-native';
 import { db } from '../../firebase/firebase';
 import { router } from 'expo-router';
-import { collection, getDocs } from '@firebase/firestore';
+import { collection, getDocs, deleteDoc, doc } from '@firebase/firestore';
 
 export default function Users() {
     const [users, setUsers] = useState([]);
@@ -30,6 +30,16 @@ export default function Users() {
     const handleUserPress = (user) => {
         setSelectedUser(user);
         setModalVisible(true);
+    };
+
+    const handleDeleteUser = async () => {
+        try {
+            await deleteDoc(doc(db, 'users', selectedUser.id));
+            setModalVisible(false);
+            setUsers(users.filter(user => user.id !== selectedUser.id));
+        } catch (error) {
+            console.error("Error deleting user:", error);
+        }
     };
 
     return (
@@ -62,6 +72,9 @@ export default function Users() {
                     <Text style={styles.Text}>Password: {selectedUser?.password}</Text>
                     <Text style={styles.Text}>Email: {selectedUser?.email}</Text>
                     <Text style={styles.Text}>ID: {selectedUser?.id}</Text>
+                    <TouchableOpacity onPress={handleDeleteUser}>
+                        <Text style={styles.deleteButton}>Delete User</Text>
+                    </TouchableOpacity>
                     <TouchableOpacity onPress={() => setModalVisible(false)}>
                         <Text style={styles.closeButton}>Close</Text>
                     </TouchableOpacity>
@@ -74,57 +87,70 @@ export default function Users() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAFAFA',
+        backgroundColor: '#F8F8F8',
         padding: 20,
         alignItems: 'center',
     },
     title: {
-        fontSize: 28,
+        fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
         textAlign: 'center',
         color: '#333',
     },
     userItem: {
-        backgroundColor: '#FFF',
-        padding: 15,
-        marginBottom: 15,
-        borderRadius: 10,
-        elevation: 3,
+        backgroundColor: '#FFFFFF',
+        padding: 10,
+        marginBottom: 10,
+        borderRadius: 8,
+        elevation: 2,
         width: '100%',
+        alignItems: 'center',
     },
     buttonText: {
-        color: '#FFF',
+        color: '#FFFFFF',
         fontSize: 16,
         fontWeight: 'bold',
         textAlign: 'center',
     },
     signOutButton: {
-        backgroundColor: "#FF6347",
-        paddingVertical: 12,
+        backgroundColor: "#FF4500",
+        paddingVertical: 10,
         paddingHorizontal: 20,
-        borderRadius: 25,
+        borderRadius: 18,
         marginTop: 20,
         alignSelf: 'center',
-        elevation: 3,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
     },
     modalContainer: {
-        backgroundColor: '#FFF',
-        padding: 20,
-        borderRadius: 10,
-        elevation: 5,
-        marginHorizontal: 30,
+        backgroundColor: '#FFFFFF',
+        padding: '15%',
+        borderRadius: 8,
+        elevation: 100,
+        margin: 50,
     },
     closeButton: {
         marginTop: 20,
-        color: '#FF6347',
+        color: '#FF4500',
         textAlign: 'center',
         fontWeight: 'bold',
         fontSize: 16,
     },
-    text: {
-        marginTop: 10,
-        color: '#333',
+    deleteButton: {
+        marginTop: 20,
+        color: 'red',
+        textAlign: 'center',
+        fontWeight: 'bold',
         fontSize: 16,
+    },
+    Text: {
+        marginTop: 20,
+        color: 'black',
+        fontWeight: 'bold',
+        fontSize: 18,
     },
 });
