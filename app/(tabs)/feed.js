@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, FlatList, Pressable, TextInput } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, FlatList, Pressable, TextInput, ActivityIndicator } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { useLocalSearchParams, router } from "expo-router";
 import { getAuth, signOut } from "firebase/auth";
-import { ActivityIndicator } from 'react-native';
 import Item from "../Item";
-
 
 const Feed = () => {
   const [data, setData] = useState([]);
@@ -97,12 +95,15 @@ const Feed = () => {
         <FlatList
           style={styles.productList}
           data={data}
+          numColumns={2}
           renderItem={({ item }) => (
-            <Item
-              name={item.name}
-              price={item.price}
-              image={item.image}
-            />
+            <View style={[styles.productItem, { width: '50%' }]}>
+              <Item
+                name={item.name}
+                price={item.price}
+                image={item.image}
+              />
+            </View>
           )}
           ListEmptyComponent={<ActivityIndicator size="large" color="#0000ff" />}
         />
@@ -179,6 +180,10 @@ const styles = StyleSheet.create({
   },
   productList: {
     width: '100%',
+  },
+  productItem: {
+    padding: 10,
+    marginBottom: 10,
   },
   signOutButton: {
     backgroundColor: "#FF4500",
