@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, router } from "expo-router";
 import { StyleSheet, View, TextInput, TouchableOpacity, Text } from "react-native";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
@@ -30,7 +30,6 @@ const SignUpPage = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       const userId = user.uid;
-
       const userData = {
         name: username,
         email: email,
@@ -151,7 +150,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 15,
     fontSize: 16,
-    paddingHorizontal: 50, 
+    paddingHorizontal: 50,
   },
   Login: {
     color: "#FF4500",

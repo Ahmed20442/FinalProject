@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, TextInput, Pressable, Text } from "react-native";
-import { FontAwesome5 } from '@expo/vector-icons'; 
+import { FontAwesome5 } from '@expo/vector-icons';
 import { Link, router } from "expo-router";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     padding: 15,
     fontSize: 16,
-    paddingHorizontal: 50, 
+    paddingHorizontal: 50,
   },
   appName: {
     fontSize: 28,

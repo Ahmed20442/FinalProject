@@ -22,6 +22,21 @@ const _layout = () => {
                     ),
                 }}
             />
+
+            <Stack.Screen
+                name="Admin"
+                options={{
+                    headerShown: false,
+                    headerTitle: "Admin",
+                    headerRight: () => (
+                        <Pressable onPress={() => router.push("Admin")}>
+                            <Text style={styles.link}>Admin</Text>
+                        </Pressable>
+                    ),
+                }}
+            />
+
+
             {/* <Stack.Screen name="about" options={{ headerTitle: "Abouts" }} />
             <Stack.Screen
                 name="blog/index"

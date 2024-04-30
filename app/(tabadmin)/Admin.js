@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, FlatList, Modal } from 'react-native';
-import { db } from '../firebase/firebase';
+import { db } from '../../firebase/firebase';
 import { router } from 'expo-router';
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from '@firebase/firestore';
-import ItemAdmin from "./item_admin";
+import ItemAdmin from "../item_admin";
 
 export default function Admin() {
     const [name, setName] = useState('');
@@ -87,7 +87,7 @@ export default function Admin() {
 
     const handleSignOut = async () => {
         try {
-            router.replace('./Login');
+            router.replace('/Login');
         } catch (error) {
             console.error("Error signing out: ", error);
         }
@@ -181,10 +181,10 @@ export default function Admin() {
                     />
                 )}
             />
-            
-            <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+
+            {/* <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
                 <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
         </View>
     );
 }
