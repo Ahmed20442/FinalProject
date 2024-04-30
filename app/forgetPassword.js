@@ -4,16 +4,16 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-nativ
 import { forgetPass } from '../firebase/auth';
 
 export default function forgetPassword() {
-  const [email,setEmail]=useState('')
-  const handleForget=async()=>{
-    try{
+  const [email, setEmail] = useState('')
+  const handleForget = async () => {
+    try {
       await forgetPass(email)
       router.replace('/Login')
       setEmail('')
 
     }
-    catch(e){
-         window.alert(e.code)
+    catch (e) {
+      window.alert(e.code)
     }
   }
   return (
@@ -30,7 +30,7 @@ export default function forgetPassword() {
         <Text style={styles.buttonText}>Reset Password</Text>
       </TouchableOpacity>
 
-     
+
       <Text style={styles.tagline}>Where Every Bite Tells a Flavorful Story!</Text>
     </View>
   );
@@ -41,19 +41,19 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F8F8F8', 
+    backgroundColor: '#F8F8F8',
     borderTopRightRadius: 30,
     borderTopLeftRadius: 30,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333', 
+    color: '#333',
     marginBottom: 20,
   },
   subtitle: {
     fontSize: 16,
-    color: '#666', 
+    color: '#666',
     marginBottom: 30,
     textAlign: 'center',
   },
@@ -74,14 +74,14 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   buttonText: {
-    color: '#FFF', 
+    color: '#FFF',
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
   },
   tagline: {
     fontSize: 14,
-    color: '#666', 
+    color: '#666',
     marginTop: 10,
   },
 });
