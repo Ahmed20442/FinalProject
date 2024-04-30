@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
     },
     editButton: {
-        backgroundColor: '#008000', // Change color for edit button
+        backgroundColor: '#008000', 
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 18,
