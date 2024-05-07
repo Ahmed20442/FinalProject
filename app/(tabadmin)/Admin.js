@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Alert, FlatList, Modal } from 'react-native';
 import { db } from '../../firebase/firebase';
-import { router } from 'expo-router';
+import { router } from "expo-router";
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from '@firebase/firestore';
 import ItemAdmin from "../item_admin";
 
@@ -14,13 +14,10 @@ export default function Admin() {
     const [selectedProduct, setSelectedProduct] = useState(null);
 
     const fetchData = async () => {
-        try {
-            const querySnapshot = await getDocs(collection(db, 'Products'));
-            const productsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setProducts(productsData);
-        } catch (error) {
-            console.error('Error fetching products: ', error);
-        }
+        const usersRef = collection(db, 'Products');
+        const querySnapshot = await getDocs(usersRef);
+        const productList = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setProducts(productList);
     };
 
     useEffect(() => {
@@ -59,7 +56,6 @@ export default function Admin() {
             console.error('Error deleting product: ', error);
         }
     };
-
 
     const handleUpdateProduct = async () => {
         if (!selectedProduct || name.trim() === '' || price.trim() === '' || image.trim() === '') {
@@ -168,26 +164,29 @@ export default function Admin() {
                 </View>
             </Modal>
             <FlatList
-                numColumns={2}
+                style={styles.productList}
                 data={products}
-                keyExtractor={(item, index) => index.toString()}
+                numColumns={2}
                 renderItem={({ item }) => (
-                    <ItemAdmin
-                        name={item.name}
-                        price={item.price}
-                        image={item.image}
-                        onDelete={() => handleDeleteProduct(item.id)}
-                        onEdit={() => openEditModal(item)}
-                    />
+                    <View style={[styles.productItem, { width: '50%' }]}>
+                        <ItemAdmin
+                            name={item.name}
+                            price={item.price}
+                            image={item.image}
+                            onDelete={() => handleDeleteProduct(item.id)}
+                            onEdit={() => openEditModal(item)}
+                        />
+                    </View>
                 )}
             />
 
-            {/* <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+            <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
                 <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -212,11 +211,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         width: '100%',
     },
-    buttonContainer: {
-        flexDirection: 'column',
-        alignItems: 'center',
-        marginBottom: 20,
-    },
     addButton: {
         backgroundColor: '#FF4500',
         paddingVertical: 12,
@@ -231,7 +225,7 @@ const styles = StyleSheet.create({
         shadowRadius: 2.62,
     },
     editButton: {
-        backgroundColor: '#008000', 
+        backgroundColor: '#008000',
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 18,
@@ -298,8 +292,8 @@ const styles = StyleSheet.create({
     productItem: {
         padding: 10,
         marginBottom: 10,
-        borderRadius: 8,
-        elevation: 2,
+    },
+    productList: {
         width: '100%',
     },
     productItemOdd: {
