@@ -47,29 +47,38 @@ const Profile = () => {
       quality: 1,
     };
 
-    ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else {
-        const source = { uri: response.uri };
-        setAvatar(source.uri);
-      }
-    });
+    try {
+      ImagePicker.launchImageLibrary(options, (response) => {
+        if (response.didCancel) {
+          console.log('User cancelled image picker');
+        } else if (response.error) {
+          console.log('ImagePicker Error: ', response.error);
+        } else {
+          const source = { uri: response.uri };
+          setAvatar(source.uri);
+        }
+      });
+    } catch (error) {
+      console.error('Error selecting image:', error);
+    }
   };
+
 
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
+
         <Text style={styles.appName}>BurgerzzaHub</Text>
+
         <Text style={styles.welcomeText}>Welcome</Text>
+
         <View style={styles.avatarContainer}>
           {avatar && <Image source={{ uri: avatar }} style={styles.avatar} />}
           <Pressable onPress={handleChoosePhoto}>
             <Text style={styles.editIcon}>✎</Text>
           </Pressable>
         </View>
+
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Full Name</Text>
           <View style={styles.inputWrapper}>
@@ -91,6 +100,7 @@ const Profile = () => {
             )}
           </View>
         </View>
+
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Email</Text>
           <View style={styles.inputWrapper}>
@@ -112,6 +122,7 @@ const Profile = () => {
             )}
           </View>
         </View>
+
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Password</Text>
           <View style={styles.inputWrapper}>
@@ -134,6 +145,7 @@ const Profile = () => {
             )}
           </View>
         </View>
+
         <Pressable style={styles.signOutButton} onPress={handleSignOut}>
           <Text style={styles.signOutButtonText}>Sign Out</Text>
         </Pressable>
