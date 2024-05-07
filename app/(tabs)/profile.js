@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Pressable, TextInput } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Pressable, TextInput, Image } from "react-native";
 import { useLocalSearchParams, router } from "expo-router";
 import { getAuth, signOut, updateProfile, updateEmail, updatePassword } from "firebase/auth";
+import ImagePicker from 'react-native-image-picker';
 
 const Profile = () => {
   const { userId, username, email: currentEmail } = useLocalSearchParams();
@@ -9,6 +10,7 @@ const Profile = () => {
   const [newEmail, setNewEmail] = useState(currentEmail);
   const [password, setPassword] = useState('');
   const [editMode, setEditMode] = useState(false);
+  const [avatar, setAvatar] = useState(null);
 
   const handleSignOut = async () => {
     try {
@@ -31,6 +33,7 @@ const Profile = () => {
       }
       await updateProfile(auth.currentUser, {
         displayName: fullName,
+        photoURL: avatar,
       });
       setEditMode(false);
     } catch (error) {
@@ -38,14 +41,35 @@ const Profile = () => {
     }
   };
 
+  const handleChoosePhoto = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 1,
+    };
+
+    ImagePicker.launchImageLibrary(options, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else {
+        const source = { uri: response.uri };
+        setAvatar(source.uri);
+      }
+    });
+  };
+
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-
         <Text style={styles.appName}>BurgerzzaHub</Text>
-
         <Text style={styles.welcomeText}>Welcome</Text>
-
+        <View style={styles.avatarContainer}>
+          {avatar && <Image source={{ uri: avatar }} style={styles.avatar} />}
+          <Pressable onPress={handleChoosePhoto}>
+            <Text style={styles.editIcon}>✎</Text>
+          </Pressable>
+        </View>
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Full Name</Text>
           <View style={styles.inputWrapper}>
@@ -67,7 +91,6 @@ const Profile = () => {
             )}
           </View>
         </View>
-
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Email</Text>
           <View style={styles.inputWrapper}>
@@ -89,7 +112,6 @@ const Profile = () => {
             )}
           </View>
         </View>
-
         <View style={styles.inputContainer}>
           <Text style={styles.inputLabel}>Password</Text>
           <View style={styles.inputWrapper}>
@@ -112,7 +134,6 @@ const Profile = () => {
             )}
           </View>
         </View>
-
         <Pressable style={styles.signOutButton} onPress={handleSignOut}>
           <Text style={styles.signOutButtonText}>Sign Out</Text>
         </Pressable>
@@ -187,6 +208,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  avatarContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  avatar: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    marginRight: 20,
+  },
 });
-
-
