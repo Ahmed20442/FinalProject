@@ -1,9 +1,9 @@
 // import React from 'react'; 
 // import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native'; 
 // import { router } from "expo-router"; 
- 
+
 // const screenWidth = Dimensions.get('window').width; 
- 
+
 // export default function Item({ name, price, image }) { 
 //   return (
 //     <View style={[styles.item, { width: screenWidth / 2 - 30 }]}>
@@ -17,8 +17,8 @@
 //     </View>
 //   );
 // }
-  
- 
+
+
 // const styles = StyleSheet.create({ 
 //   item: { 
 //     backgroundColor: 'lightgray',
@@ -32,29 +32,32 @@
 //     marginRight: 20, 
 //   }, 
 //   infoContainer: { 
-  
+
 //   }, 
 //   name: { 
 //     fontSize: 18,
 //     fontWeight: 'bold',
 //     marginBottom: 5,
-     
+
 //   }, 
 //   price: { 
 //     fontSize: 16,
 //     color: '#888', 
 //   } 
 // });
-import React from 'react'; 
-import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native'; 
-import { db } from "./../firebase/firebase"; 
+import React from 'react';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
+import { db } from "../firebase/firebase";
+import { addDoc, collection } from '@firebase/firestore';
 
-const screenWidth = Dimensions.get('window').width; 
+const screenWidth = Dimensions.get('window').width;
 
-export default function Item({ name, price, image }) { 
+export default function Item({ name, price, image }) {
+
   const addToCart = async () => {
     try {
-      await db.collection("cartItems").add({
+      const cartItemsRef = collection(db, 'cartItems');
+      await addDoc(cartItemsRef, {
         name,
         price,
         image,
@@ -65,6 +68,7 @@ export default function Item({ name, price, image }) {
       console.error('Error adding item to cart:', error);
     }
   };
+
 
   return (
     <View style={styles.itemContainer}>
@@ -79,9 +83,9 @@ export default function Item({ name, price, image }) {
     </View>
   );
 }
-  
-const styles = StyleSheet.create({ 
-  itemContainer: { 
+
+const styles = StyleSheet.create({
+  itemContainer: {
     backgroundColor: 'lightgray',
     borderRadius: 10,
     padding: 5,
@@ -89,24 +93,24 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 10,
-  }, 
-  image: { 
+  },
+  image: {
     width: 80,
     height: 80,
     borderRadius: 10,
-    marginRight: 20, 
-  }, 
-  infoContainer: { 
+    marginRight: 20,
+  },
+  infoContainer: {
     flex: 1,
-  }, 
-  name: { 
+  },
+  name: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-  }, 
-  price: { 
+  },
+  price: {
     fontSize: 16,
-    color: '#888', 
+    color: '#888',
     marginBottom: 5,
   },
   addToCartButton: {

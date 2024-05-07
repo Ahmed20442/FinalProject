@@ -272,7 +272,7 @@ const Feed = () => {
             placeholder="Search for products"
             onChangeText={(text) => searchItems(text)}
           />
-           <Ionicons name="search" size={24} color="black" style={styles.searchIcon} />
+          <Ionicons name="search" size={24} color="black" style={styles.searchIcon} />
         </View>
 
         <FlatList
@@ -315,7 +315,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 20,
     width: '100%',
-    marginTop:40
+    marginTop: 40
   },
   input: {
     flex: 1,
@@ -324,7 +324,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     paddingHorizontal: 40,
     marginRight: 10,
-    marginLeft:13,
+    marginLeft: 13,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -332,10 +332,10 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
   },
   searchIcon: {
-    position: 'absolute', 
+    position: 'absolute',
     left: 15,
-    marginLeft:10, 
-    top: 10, 
+    marginLeft: 10,
+    top: 10,
   },
   productList: {
     width: '100%',
