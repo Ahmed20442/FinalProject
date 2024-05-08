@@ -48,16 +48,14 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
 import { db } from "../firebase/firebase";
-import { addDoc, collection } from '@firebase/firestore';
+import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from '@firebase/firestore';
 
 const screenWidth = Dimensions.get('window').width;
 
 export default function Item({ name, price, image }) {
-
   const addToCart = async () => {
     try {
-      const cartItemsRef = collection(db, 'cartItems');
-      await addDoc(cartItemsRef, {
+      await addDoc(collection(db, 'cartItems'), {
         name,
         price,
         image,

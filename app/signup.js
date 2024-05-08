@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link, router } from "expo-router";
-import { StyleSheet, View, TextInput, TouchableOpacity, Text } from "react-native";
+import { StyleSheet, View, TextInput, TouchableOpacity, Text, ScrollView } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import { Picker } from "@react-native-picker/picker";
 
 const CustomAlert = ({ message }) => (
   <View style={styles.alertContainer}>
@@ -17,9 +18,29 @@ const SignUpPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [age, setAge] = useState("");
+  const [gender, setGender] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [error, setError] = useState(null);
 
   const handleSignUp = async () => {
+    if (
+      !username ||
+      !email ||
+      !password ||
+      !confirmPassword ||
+      !age ||
+      !gender ||
+      !city ||
+      !address ||
+      !phoneNumber
+    ) {
+      setError("Please fill in all fields");
+      return;
+    }
+
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -34,6 +55,11 @@ const SignUpPage = () => {
         name: username,
         email: email,
         password: password,
+        age: age,
+        gender: gender,
+        city: city,
+        address: address,
+        phoneNumber: phoneNumber,
         userId: userId,
       };
       await addDoc(collection(db, "users"), userData);
@@ -46,70 +72,129 @@ const SignUpPage = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.createAccountText}>Create Account</Text>
-      <Text style={styles.welcomeText}>Welcome to</Text>
-      <Text style={styles.appName}>BurgerzzaHub</Text>
+    <ScrollView contentContainerStyle={styles.scrollViewContent}>
+      <View style={styles.container}>
+        <Text style={styles.createAccountText}>Create Account</Text>
+        <Text style={styles.welcomeText}>Welcome to</Text>
+        <Text style={styles.appName}>BurgerzzaHub</Text>
 
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name="user" size={24} color="#ccc" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Username"
-          onChangeText={setUsername}
-          value={username}
-          autoCapitalize="none"
-          keyboardType="default"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name="envelope" size={24} color="#ccc" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          onChangeText={setEmail}
-          value={email}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name="lock" size={24} color="#ccc" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          onChangeText={setPassword}
-          value={password}
-          secureTextEntry
-          autoCapitalize="none"
-          keyboardType="default"
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <FontAwesome5 name="lock" size={24} color="#ccc" style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          onChangeText={setConfirmPassword}
-          value={confirmPassword}
-          secureTextEntry
-          autoCapitalize="none"
-          keyboardType="default"
-        />
-      </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="user" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Username"
+            onChangeText={setUsername}
+            value={username}
+            autoCapitalize="none"
+            keyboardType="default"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="envelope" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            onChangeText={setEmail}
+            value={email}
+            autoCapitalize="none"
+            keyboardType="email-address"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="lock" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            onChangeText={setPassword}
+            value={password}
+            secureTextEntry
+            autoCapitalize="none"
+            keyboardType="default"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="lock" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Confirm Password"
+            onChangeText={setConfirmPassword}
+            value={confirmPassword}
+            secureTextEntry
+            autoCapitalize="none"
+            keyboardType="default"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="calendar-alt" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Age"
+            onChangeText={setAge}
+            value={age}
+            keyboardType="numeric"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <Picker
+            style={styles.input}
+            selectedValue={gender}
+            onValueChange={(itemValue) => setGender(itemValue)}
+          >
+            <Picker.Item label="Select Gender" value="" />
+            <Picker.Item label="Male" value="male" />
+            <Picker.Item label="Female" value="female" />
+          </Picker>
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="map-marker-alt" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="City"
+            onChangeText={setCity}
+            value={city}
+            autoCapitalize="words"
+            keyboardType="default"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="address-book" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Address"
+            onChangeText={setAddress}
+            value={address}
+            autoCapitalize="sentences"
+            keyboardType="default"
+          />
+        </View>
+        <View style={styles.inputContainer}>
+          <FontAwesome5 name="phone" size={24} color="#ccc" style={styles.icon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Phone Number"
+            onChangeText={setPhoneNumber}
+            value={phoneNumber}
+            keyboardType="phone-pad"
+          />
+        </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
-      <Text style={styles.link}>
-        Already have an account? <Link href={"./Login"} style={styles.Login}>Log in</Link>
-      </Text>
-      {error && <CustomAlert message={error} />}
-    </View>
+        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+          <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+        <Text style={styles.link}>
+          Already have an account? <Link href={"./Login"} style={styles.Login}>Log in</Link>
+        </Text>
+        {error && <CustomAlert message={error} />}
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: "center",
@@ -197,4 +282,3 @@ const styles = StyleSheet.create({
 });
 
 export default SignUpPage;
-
