@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, ActivityIndicator, Alert } from 'react-native';
+import { StyleSheet, View, Text, FlatList, Alert, TouchableOpacity } from 'react-native';
 import { collection, onSnapshot, doc, deleteDoc } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
 import ItemCart from '../item_cart';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useLocalSearchParams, router } from "expo-router";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -45,6 +46,10 @@ export default function Cart() {
 
   const totalOverallPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
 
+  const handleCheckout = () => {
+    router.push('../Checkout');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cart</Text>
@@ -66,7 +71,12 @@ export default function Cart() {
         ListEmptyComponent={<Text style={styles.emptyCartText}>List Is Empty</Text>}
       />
       {cartItems.length > 0 && (
-        <Text style={styles.totalOverallPrice}>Total Overall Price: ${totalOverallPrice.toFixed(2)}</Text>
+        <View style={styles.checkoutContainer}>
+          <Text style={styles.totalOverallPrice}>Total Overall Price: ${totalOverallPrice.toFixed(2)}</Text>
+          <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+            <Text style={styles.checkoutButtonText}>Checkout</Text>
+          </TouchableOpacity>
+        </View>
       )}
     </View>
   );
@@ -94,6 +104,21 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginTop: 20,
-    alignSelf: 'center',
+  },
+  checkoutContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  checkoutButton: {
+    backgroundColor: '#FF4500',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 18,
+    marginTop: 10,
+  },
+  checkoutButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
