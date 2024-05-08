@@ -57,7 +57,7 @@ const LoginScreen = () => {
       if (userId === "CqtHCH6ZoCegKomjvNWTZFYDdi23") {
         router.replace('/Admin');
       } else {
-        router.push(`/profile?userId=${userId}&username=${username}&email=${email}`);
+        router.push(`/feed?userId=${userId}&username=${username}&email=${email}`);
       }
     }
   };

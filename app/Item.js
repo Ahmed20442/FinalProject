@@ -52,10 +52,16 @@ import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from '@firebas
 
 const screenWidth = Dimensions.get('window').width;
 
-export default function Item({ name, price, image }) {
+export default function Item({ name, price, image, userId }) {
   const addToCart = async () => {
     try {
-      await addDoc(collection(db, 'cartItems'), {
+      if (!userId) {
+        console.error('User ID is undefined');
+        return;
+      }
+
+      const cartItemsRef = collection(db, 'users', userId, 'cartItems');
+      await addDoc(cartItemsRef, {
         name,
         price,
         image,
@@ -81,6 +87,7 @@ export default function Item({ name, price, image }) {
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   itemContainer: {

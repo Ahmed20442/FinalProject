@@ -3,31 +3,41 @@ import { StyleSheet, View, Text, FlatList, ActivityIndicator, Alert } from 'reac
 import { collection, onSnapshot, doc, deleteDoc } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
 import ItemCart from '../item_cart';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
-
-  const fetchData = () => {
-    const usersRef = collection(db, 'cartItems');
-    const unsubscribe = onSnapshot(usersRef, (snapshot) => {
-      const productList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setCartItems(productList);
-    });
-
-    return unsubscribe;
-  };
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const unsubscribe = fetchData();
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
+      }
+    });
 
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    if (userId) {
+      const usersRef = collection(db, 'users', userId, 'cartItems');
+      const unsubscribe = onSnapshot(usersRef, (snapshot) => {
+        const productList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCartItems(productList);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [userId]);
+
   const handleRemoveItem = async (itemId) => {
     try {
-      await deleteDoc(doc(db, 'cartItems', itemId));
+      await deleteDoc(doc(db, 'users', userId, 'cartItems', itemId));
       Alert.alert('Item removed from cart');
-      // No need to manually update cartItems, it will be updated automatically by the onSnapshot listener
     } catch (error) {
       console.error('Error removing item from cart: ', error);
     }
