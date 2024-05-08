@@ -1,37 +1,55 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, ActivityIndicator, Alert } from 'react-native';
-import { collection, getDocs, doc, deleteDoc } from '@firebase/firestore';
+import { StyleSheet, View, Text, FlatList, Alert, TouchableOpacity } from 'react-native';
+import { collection, onSnapshot, doc, deleteDoc } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
-import ItemAdmin from '../item_admin';
+import ItemCart from '../item_cart';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useLocalSearchParams, router } from "expo-router";
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const cartItemsRef = collection(db, 'cartItems');
-        const querySnapshot = await getDocs(cartItemsRef);
-        const items = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setCartItems(items);
-      } catch (error) {
-        console.error('Error fetching cart items: ', error);
+    const auth = getAuth();
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserId(user.uid);
+      } else {
+        setUserId(null);
       }
-    };
+    });
 
-    fetchCartItems();
+    return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      const usersRef = collection(db, 'users', userId, 'cartItems');
+      const unsubscribe = onSnapshot(usersRef, (snapshot) => {
+        const productList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setCartItems(productList);
+      });
+
+      return () => unsubscribe();
+    }
+  }, [userId]);
 
   const handleRemoveItem = async (itemId) => {
     try {
-      await deleteDoc(doc(db, 'cartItems', itemId));
+      await deleteDoc(doc(db, 'users', userId, 'cartItems', itemId));
       Alert.alert('Item removed from cart');
-      const updatedCartItems = cartItems.filter(item => item.id !== itemId);
-      setCartItems(updatedCartItems);
     } catch (error) {
       console.error('Error removing item from cart: ', error);
     }
   };
+
+  const totalOverallPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
+  const handleCheckout = () => {
+    router.push('../Checkout');
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cart</Text>
@@ -41,16 +59,25 @@ export default function Cart() {
         numColumns={2}
         renderItem={({ item }) => (
           <View style={[styles.productItem, { width: '50%' }]}>
-            <ItemAdmin
+            <ItemCart
               name={item.name}
               price={item.price}
               image={item.image}
+              quantity={item.quantity}
               onDelete={() => handleRemoveItem(item.id)}
             />
           </View>
         )}
-        ListEmptyComponent={<ActivityIndicator size="large" color="#0000ff" />}
+        ListEmptyComponent={<Text style={styles.emptyCartText}>List Is Empty</Text>}
       />
+      {cartItems.length > 0 && (
+        <View style={styles.checkoutContainer}>
+          <Text style={styles.totalOverallPrice}>Total Overall Price: ${totalOverallPrice.toFixed(2)}</Text>
+          <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+            <Text style={styles.checkoutButtonText}>Checkout</Text>
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 }
@@ -70,7 +97,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  cartList: {
+  productList: {
     flexGrow: 1,
+  },
+  totalOverallPrice: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 20,
+  },
+  checkoutContainer: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  checkoutButton: {
+    backgroundColor: '#FF4500',
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 18,
+    marginTop: 10,
+  },
+  checkoutButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });

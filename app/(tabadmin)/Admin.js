@@ -4,6 +4,8 @@ import { db } from '../../firebase/firebase';
 import { router } from "expo-router";
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from '@firebase/firestore';
 import ItemAdmin from "../item_admin";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 
 export default function Admin() {
     const [name, setName] = useState('');
@@ -100,18 +102,24 @@ export default function Admin() {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Admin</Text>
-            <TouchableOpacity
-                style={styles.addButton}
-                onPress={() => {
-                    setSelectedProduct(null);
-                    setName('');
-                    setPrice('');
-                    setImage('');
-                    setModalVisible(true);
-                }}
-            >
-                <Text style={styles.buttonText}>Add Product</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+                    <MaterialCommunityIcons name="logout" size={24} color="white" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={styles.addButton}
+                    onPress={() => {
+                        setSelectedProduct(null);
+                        setName('');
+                        setPrice('');
+                        setImage('');
+                        setModalVisible(true);
+                    }}
+                >
+                    <Text style={styles.buttonText}>Add Product</Text>
+                </TouchableOpacity>
+            </View>
+
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -179,10 +187,6 @@ export default function Admin() {
                     </View>
                 )}
             />
-
-            <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
-                <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity>
         </View>
     );
 }
@@ -192,7 +196,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F8F8F8',
         padding: 20,
-        alignItems: 'center',
+        // alignItems: 'center',
     },
     title: {
         fontSize: 24,
@@ -268,7 +272,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         elevation: 5,
         minWidth: 300,
+        marginHorizontal: 20, // Added margin to the sides
+        alignItems: 'center', // Centered the content horizontally
     },
+
     modalTitle: {
         fontSize: 20,
         fontWeight: 'bold',

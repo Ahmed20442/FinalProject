@@ -57,9 +57,9 @@ export default function Users() {
                 )}
             />
 
-            <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+            {/* <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
                 <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <Modal
                 animationType="slide"
@@ -72,6 +72,11 @@ export default function Users() {
                     <Text style={styles.Text}>Password: {selectedUser?.password}</Text>
                     <Text style={styles.Text}>Email: {selectedUser?.email}</Text>
                     <Text style={styles.Text}>ID: {selectedUser?.id}</Text>
+                    <Text style={styles.Text}>age: {selectedUser?.age}</Text>
+                    <Text style={styles.Text}>Gender: {selectedUser?.gender}</Text>
+                    <Text style={styles.Text}>Address: {selectedUser?.address}</Text>
+                    <Text style={styles.Text}>PhoneNumber: {selectedUser?.phoneNumber}</Text>
+
                     <TouchableOpacity onPress={handleDeleteUser}>
                         <Text style={styles.deleteButton}>Delete User</Text>
                     </TouchableOpacity>
