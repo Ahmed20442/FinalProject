@@ -60,7 +60,8 @@ export default function Item({ name, price, image, userId }) {
         return;
       }
 
-      const cartItemsRef = collection(db, 'users', userId, 'cartItems');
+      const userRef = doc(db, 'users', userId);
+      const cartItemsRef = collection(userRef, 'cartItems');
       await addDoc(cartItemsRef, {
         name,
         price,
@@ -72,7 +73,6 @@ export default function Item({ name, price, image, userId }) {
       console.error('Error adding item to cart:', error);
     }
   };
-
 
   return (
     <View style={styles.itemContainer}>
