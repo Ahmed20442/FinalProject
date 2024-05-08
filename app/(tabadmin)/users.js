@@ -57,9 +57,9 @@ export default function Users() {
                 )}
             />
 
-            <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+            {/* <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
                 <Text style={styles.buttonText}>Sign Out</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             <Modal
                 animationType="slide"

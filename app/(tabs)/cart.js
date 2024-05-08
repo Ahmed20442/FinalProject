@@ -43,6 +43,8 @@ export default function Cart() {
     }
   };
 
+  const totalOverallPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Cart</Text>
@@ -56,12 +58,16 @@ export default function Cart() {
               name={item.name}
               price={item.price}
               image={item.image}
+              quantity={item.quantity}
               onDelete={() => handleRemoveItem(item.id)}
             />
           </View>
         )}
-        ListEmptyComponent={<Text>List Is Empty</Text>}
+        ListEmptyComponent={<Text style={styles.emptyCartText}>List Is Empty</Text>}
       />
+      {cartItems.length > 0 && (
+        <Text style={styles.totalOverallPrice}>Total Overall Price: ${totalOverallPrice.toFixed(2)}</Text>
+      )}
     </View>
   );
 }
@@ -81,7 +87,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
   },
-  cartList: {
+  productList: {
     flexGrow: 1,
+  },
+  totalOverallPrice: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginTop: 20,
+    alignSelf: 'center',
   },
 });

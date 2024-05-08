@@ -1,10 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Dimensions, Pressable, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
 import { router } from "expo-router";
+import { MaterialIcons } from '@expo/vector-icons';
 
 const screenWidth = Dimensions.get('window').width;
 
-export default function ItemCart({ name, price, image, onDelete }) {
+export default function ItemCart({ name, price, image, quantity, onDelete }) {
+    const totalPrice = price * quantity;
+
     return (
         <View style={[styles.item, { width: screenWidth / 2 - 30 }]}>
             <Pressable onPress={() => router.push(`/pressedItem?name=${name}&price=${price}&image=${image}`)}>
@@ -13,16 +16,16 @@ export default function ItemCart({ name, price, image, onDelete }) {
             <View style={styles.infoContainer}>
                 <Text numberOfLines={1} style={styles.name}>{name}</Text>
                 <Text style={styles.price}>${price}</Text>
-
+                <Text style={styles.quantity}>Quantity: {quantity}</Text>
+                <Text style={styles.totalPrice}>Total: ${totalPrice}</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-                    <Text style={styles.buttonText}>Delete</Text>
-                </TouchableOpacity>
-            </View>
+            <Pressable onPress={onDelete}>
+                <MaterialIcons name="delete" size={24} color="black" style={styles.deleteIcon} />
+            </Pressable>
         </View>
     );
 }
+
 
 
 const styles = StyleSheet.create({
@@ -50,10 +53,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#888',
     },
-    buttonText: {
-        color: 'red',
+    quantity: {
         fontSize: 16,
-    }
+        color: '#555',
+    },
+    deleteIcon: {
+        alignSelf: 'flex-end',
+    },
 });
-
-

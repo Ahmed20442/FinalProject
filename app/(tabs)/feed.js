@@ -12,6 +12,7 @@ const Feed = () => {
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [userId, setUserId] = useState(null);
+  const [cartItemCount, setCartItemCount] = useState(0); // Add cartItemCount state
 
   useEffect(() => {
     const auth = getAuth();
@@ -24,11 +25,6 @@ const Feed = () => {
     });
     return unsubscribe;
   }, []);
-
-  const searchItems = (searchFor) => {
-    const filteredData = originalData.filter(item => item.name.toLowerCase().includes(searchFor.toLowerCase()));
-    setData(filteredData);
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,6 +52,11 @@ const Feed = () => {
     fetchData();
   }, []);
 
+  const searchItems = (searchFor) => {
+    const filteredData = originalData.filter(item => item.name.toLowerCase().includes(searchFor.toLowerCase()));
+    setData(filteredData);
+  };
+
   const handleSignOut = async () => {
     try {
       const auth = getAuth();
@@ -66,6 +67,13 @@ const Feed = () => {
     }
   };
 
+  const handleAddToCart = () => {
+    setCartItemCount(prevCount => prevCount + 1); // Increment cart item count
+    router.push("/cart");
+    setCartItemCount(0);
+    console.log("Add to cart clicked");
+  };
+
   const resetData = () => {
     setData(originalData);
   };
@@ -73,7 +81,6 @@ const Feed = () => {
   return (
     <View style={styles.container}>
       <SafeAreaView style={styles.safeArea}>
-
         <View style={styles.searchContainer}>
           <TextInput
             style={styles.input}
@@ -81,8 +88,11 @@ const Feed = () => {
             onChangeText={(text) => searchItems(text)}
           />
           <Ionicons name="search" size={24} color="black" style={styles.searchIcon} />
+          <Pressable onPress={handleAddToCart} style={styles.cartIcon}>
+            <Ionicons name="cart" size={24} color="black" />
+            {cartItemCount > 0 && <Text style={styles.cartItemCount}>{cartItemCount}</Text>}
+          </Pressable>
         </View>
-
         <FlatList
           style={styles.productList}
           data={data}
@@ -94,14 +104,16 @@ const Feed = () => {
                 price={item.price}
                 image={item.image}
                 userId={userId} // Pass userId here
+                cartItemCount={cartItemCount} // Pass cartItemCount here
+                setCartItemCount={setCartItemCount} // Pass setCartItemCount here
               />
             </View>
           )}
           ListEmptyComponent={<ActivityIndicator size="large" color="#0000ff" />}
         />
-        <Pressable style={styles.signOutButton} onPress={handleSignOut}>
+        {/* <Pressable style={styles.signOutButton} onPress={handleSignOut}>
           <Text style={styles.signOutButtonText}>Sign Out</Text>
-        </Pressable>
+        </Pressable> */}
       </SafeAreaView>
     </View>
   );
@@ -145,6 +157,21 @@ const styles = StyleSheet.create({
     left: 15,
     marginLeft: 10,
     top: 10,
+  },
+  cartIcon: {
+    position: 'absolute',
+    right: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  cartItemCount: {
+    backgroundColor: 'red',
+    color: 'white',
+    fontSize: 12,
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 10,
+    marginLeft: 5,
   },
   productList: {
     width: '100%',
