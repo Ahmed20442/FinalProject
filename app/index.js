@@ -16,7 +16,7 @@ export default function App() {
 
 
       <Text style={styles.welcomeText}>Welcome to</Text>
-      <Text style={styles.appName}>BurgerzzaHub</Text>
+      <Text style={styles.appName}>Burgerizza</Text>
 
 
       <Text style={styles.descriptionText}>
