@@ -17,14 +17,7 @@ export default function Checkout() {
     const [cartItems, setCartItems] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [currentDate, setCurrentDate] = useState('');
-
-    // Function to generate a random number between min and max (inclusive)
-    function getRandomNumber(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    // Generate a random number
-    const randomNumber = getRandomNumber(1, 100);
+    const [randomNumber, setRandomNumber] = useState(1); // Initial value is 1
 
     useEffect(() => {
         const auth = getAuth();
@@ -44,6 +37,12 @@ export default function Checkout() {
         });
 
         return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
+        if (isModalVisible) {
+            setRandomNumber(prev => prev + 1);
+        }
     }, []);
 
     const fetchUserData = async (email) => {
@@ -100,7 +99,8 @@ export default function Checkout() {
                     price: item.price,
                     image: item.image,
                     quantity: item.quantity,
-                    saleTime: new Date().toString()
+                    saleTime: new Date().toString(),
+                    NumberOrder: randomNumber
                 });
             });
 

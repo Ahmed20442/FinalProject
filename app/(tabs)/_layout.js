@@ -29,13 +29,7 @@ const _layout = () => {
           }}
         />
 
-        <Tabs.Screen
-          name="Procurement"
-          options={{
-            tabBarIcon: () => <AntDesign name="Sales" size={24} color="black" />,
-            tabBarLabel: "Procurement",
-          }}
-        />
+
       </Tabs>
     </>
   );
