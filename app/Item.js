@@ -50,7 +50,7 @@ import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-nati
 import { db } from "../firebase/firebase";
 import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from '@firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
-
+import { router } from 'expo-router';
 const screenWidth = Dimensions.get('window').width;
 
 export default function Item({ name, price, image, userId, cartItemCount, setCartItemCount }) {
@@ -90,9 +90,14 @@ export default function Item({ name, price, image, userId, cartItemCount, setCar
 
   return (
     <View style={styles.itemContainer}>
-      <Image source={{ uri: image }} style={styles.image} />
-      <View style={styles.infoContainer}>
+      <View>
+
+      <Pressable onPress={() => router.push(`/pressedItem?name=${name}&price=${price}&image=${image}`)}>
+                <Image source={{ uri: image }} style={styles.image} />
+            </Pressable>
         <Text numberOfLines={1} style={styles.name}>{name}</Text>
+      </View>
+      <View style={styles.infoContainer}>
         <Text style={styles.price}>${price}</Text>
         <View style={styles.quantityContainer}>
           <Pressable onPress={decrementQuantity} style={styles.quantityButton}>
@@ -130,16 +135,20 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
+    
   },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
+    maxWidth:'70%'
   },
   price: {
     fontSize: 16,
-    color: '#888',
+    color: '#000',
     marginBottom: 5,
+    fontWeight:"bold",
+    
   },
   quantityContainer: {
     flexDirection: 'row',
@@ -169,6 +178,9 @@ const styles = StyleSheet.create({
   addToCartButtonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+  cartIcon:{
+    alignItems:"center"
   }
 });
 

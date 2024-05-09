@@ -12,7 +12,7 @@ const Feed = () => {
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [userId, setUserId] = useState(null);
-  const [cartItemCount, setCartItemCount] = useState(0); // Add cartItemCount state
+  const [cartItemCount, setCartItemCount] = useState(0); 
 
   useEffect(() => {
     const auth = getAuth();
@@ -68,7 +68,7 @@ const Feed = () => {
   };
 
   const handleAddToCart = () => {
-    setCartItemCount(prevCount => prevCount + 1); // Increment cart item count
+    setCartItemCount(prevCount => prevCount + 1);
     router.push("/cart");
     setCartItemCount(0);
     console.log("Add to cart clicked");
@@ -103,17 +103,15 @@ const Feed = () => {
                 name={item.name}
                 price={item.price}
                 image={item.image}
-                userId={userId} // Pass userId here
-                cartItemCount={cartItemCount} // Pass cartItemCount here
-                setCartItemCount={setCartItemCount} // Pass setCartItemCount here
+                userId={userId} 
+                cartItemCount={cartItemCount} 
+                setCartItemCount={setCartItemCount} 
               />
             </View>
           )}
           ListEmptyComponent={<ActivityIndicator size="large" color="#0000ff" />}
         />
-        {/* <Pressable style={styles.signOutButton} onPress={handleSignOut}>
-          <Text style={styles.signOutButtonText}>Sign Out</Text>
-        </Pressable> */}
+        
       </SafeAreaView>
     </View>
   );

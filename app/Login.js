@@ -69,7 +69,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.welcome}>Welcome To!</Text>
-      <Text style={styles.appName}>BurgerzzaHub</Text>
+      <Text style={styles.appName}>Burgerizza</Text>
       <Text style={styles.title}>Login</Text>
       <View style={styles.inputContainer}>
         <FontAwesome5 name="envelope" size={24} color="#ccc" style={styles.icon} />

@@ -76,7 +76,7 @@ const SignUpPage = () => {
       <View style={styles.container}>
         <Text style={styles.createAccountText}>Create Account</Text>
         <Text style={styles.welcomeText}>Welcome to</Text>
-        <Text style={styles.appName}>BurgerzzaHub</Text>
+        <Text style={styles.appName}>Burgerizza</Text>
 
         <View style={styles.inputContainer}>
           <FontAwesome5 name="user" size={24} color="#ccc" style={styles.icon} />
