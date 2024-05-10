@@ -17,7 +17,7 @@ export default function ItemCart({ name, price, image, quantity, onDelete }) {
                 <Text numberOfLines={1} style={styles.name}>{name}</Text>
                 <Text style={styles.price}>${price}</Text>
                 <Text style={styles.quantity}>Quantity: {quantity}</Text>
-                <Text style={styles.totalPrice}>Total: ${totalPrice}</Text>
+                <Text style={{ fontSize: 20 }}>Total: ${totalPrice}</Text>
             </View>
             <Pressable onPress={onDelete}>
                 <MaterialIcons name="delete" size={24} color="black" style={styles.deleteIcon} />
@@ -30,13 +30,14 @@ export default function ItemCart({ name, price, image, quantity, onDelete }) {
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: 'lightgray',
+
         borderRadius: 10,
         padding: 5,
+        alignItems: 'flex-start'
     },
     image: {
-        width: 80,
-        height: 80,
+        width: 150,
+        height: 150,
         borderRadius: 10,
         marginRight: 20,
     },
@@ -44,13 +45,13 @@ const styles = StyleSheet.create({
 
     },
     name: {
-        fontSize: 18,
+        fontSize: 25,
         fontWeight: 'bold',
         marginBottom: 5,
 
     },
     price: {
-        fontSize: 16,
+        fontSize: 20,
         color: '#888',
     },
     quantity: {
@@ -59,5 +60,6 @@ const styles = StyleSheet.create({
     },
     deleteIcon: {
         alignSelf: 'flex-end',
+        fontSize: 30
     },
 });

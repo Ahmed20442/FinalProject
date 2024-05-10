@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, Dimensions, Pressable, TouchableOpacity } from 'react-native';
 import { router } from "expo-router";
+import { Ionicons } from '@expo/vector-icons'; // Import Ionicons
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -17,11 +18,13 @@ export default function ItemAdmin({ name, price, image, onDelete, onEdit }) {
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-                    <Text style={styles.buttonText}>Delete</Text>
+                    <Ionicons name="trash-outline" size={24} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.editButton} onPress={onEdit}>
-                    <Text style={styles.buttonText}>Edit</Text>
-                </TouchableOpacity></View>
+                    <Ionicons name="create-outline" size={24} color="black" />
+                </TouchableOpacity>
+
+            </View>
         </View>
     );
 }
@@ -29,27 +32,27 @@ export default function ItemAdmin({ name, price, image, onDelete, onEdit }) {
 
 const styles = StyleSheet.create({
     item: {
-        backgroundColor: 'lightgray',
+        backgroundColor: '#F8F8F8',
         borderRadius: 10,
         padding: 5,
+        alignItems: 'center'
     },
     image: {
-        width: 80,
-        height: 80,
+        width: 120,
+        height: 120,
         borderRadius: 10,
-        marginRight: 20,
     },
     infoContainer: {
 
     },
     name: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 5,
 
     },
     price: {
-        fontSize: 16,
+        fontSize: 18,
         color: '#888',
     },
     buttonText: {

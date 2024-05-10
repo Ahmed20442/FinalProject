@@ -104,7 +104,7 @@ export default function Admin() {
             <Text style={styles.title}>Admin</Text>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                 <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
-                    <MaterialCommunityIcons name="logout" size={24} color="white" />
+                    <MaterialCommunityIcons name="logout" size={25} color="white" />
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.addButton}
@@ -314,7 +314,6 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 18,
-        marginTop: 20,
         alignSelf: 'center',
         elevation: 2,
         shadowColor: '#000',
