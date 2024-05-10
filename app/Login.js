@@ -68,7 +68,7 @@ const LoginScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcome}>Welcome To!</Text>
+      {/* <Text style={styles.welcome}></Text> */}
       <Text style={styles.appName}>Burgerizza</Text>
       <Text style={styles.title}>Login</Text>
       <View style={styles.inputContainer}>
