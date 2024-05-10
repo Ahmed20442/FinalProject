@@ -92,9 +92,9 @@ export default function Item({ name, price, image, userId, cartItemCount, setCar
     <View style={styles.itemContainer}>
       <View>
 
-      <Pressable onPress={() => router.push(`/pressedItem?name=${name}&price=${price}&image=${image}`)}>
-                <Image source={{ uri: image }} style={styles.image} />
-            </Pressable>
+        <Pressable onPress={() => router.push(`/pressedItem?name=${name}&price=${price}&image=${image}`)}>
+          <Image source={{ uri: image }} style={styles.image} />
+        </Pressable>
         <Text numberOfLines={1} style={styles.name}>{name}</Text>
       </View>
       <View style={styles.infoContainer}>
@@ -135,20 +135,20 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flex: 1,
-    
+
   },
   name: {
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 5,
-    maxWidth:'70%'
+    maxWidth: '70%'
   },
   price: {
     fontSize: 16,
     color: '#000',
     marginBottom: 5,
-    fontWeight:"bold",
-    
+    fontWeight: "bold",
+
   },
   quantityContainer: {
     flexDirection: 'row',
@@ -179,8 +179,8 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
   },
-  cartIcon:{
-    alignItems:"center"
+  cartIcon: {
+    alignItems: "center"
   }
 });
 
