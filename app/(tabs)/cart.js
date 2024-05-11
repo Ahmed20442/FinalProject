@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, FlatList, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, SafeAreaView, FlatList, Alert, TouchableOpacity } from 'react-native';
 import { collection, onSnapshot, doc, deleteDoc } from '@firebase/firestore';
 import { db } from '../../firebase/firebase';
 import ItemCart from '../item_cart';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useLocalSearchParams, router } from "expo-router";
+import { useLocalSearchParams, router } from 'expo-router';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -20,18 +20,18 @@ export default function Cart() {
       }
     });
 
-    return () => unsubscribe();
+    return unsubscribe;
   }, []);
 
   useEffect(() => {
     if (userId) {
       const usersRef = collection(db, 'users', userId, 'cartItems');
       const unsubscribe = onSnapshot(usersRef, (snapshot) => {
-        const productList = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const productList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
         setCartItems(productList);
       });
 
-      return () => unsubscribe();
+      return unsubscribe;
     }
   }, [userId]);
 
@@ -44,7 +44,7 @@ export default function Cart() {
     }
   };
 
-  const totalOverallPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const totalOverallPrice = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
   const handleCheckout = () => {
     router.push('../Checkout');
@@ -52,32 +52,37 @@ export default function Cart() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cart</Text>
-      <FlatList
-        style={styles.productList}
-        data={cartItems}
-        numColumns={2}
-        renderItem={({ item }) => (
-          <View style={[styles.productItem, { width: '50%' }]}>
-            <ItemCart
-              name={item.name}
-              price={item.price}
-              image={item.image}
-              quantity={item.quantity}
-              onDelete={() => handleRemoveItem(item.id)}
-            />
+      <SafeAreaView style={styles.safeArea}>
+
+        <Text style={styles.title}>Cart</Text>
+        <FlatList
+          style={styles.productList}
+          data={cartItems}
+          numColumns={2}
+          renderItem={({ item }) => (
+            <View style={[styles.productItem]}>
+              <ItemCart
+                name={item.name}
+                price={item.price}
+                image={item.image}
+                quantity={item.quantity}
+                onDelete={() => handleRemoveItem(item.id)}
+              />
+            </View>
+          )}
+          ListEmptyComponent={<Text style={styles.emptyCartText}>List Is Empty</Text>}
+        />
+
+        {cartItems.length > 0 && (
+          <View style={styles.checkoutContainer}>
+            <Text style={styles.totalOverallPrice}>Total Overall Price: ${totalOverallPrice.toFixed(2)}</Text>
+            <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
+              <Text style={styles.checkoutButtonText}>Checkout</Text>
+            </TouchableOpacity>
           </View>
         )}
-        ListEmptyComponent={<Text style={styles.emptyCartText}>List Is Empty</Text>}
-      />
-      {cartItems.length > 0 && (
-        <View style={styles.checkoutContainer}>
-          <Text style={styles.totalOverallPrice}>Total Overall Price: ${totalOverallPrice.toFixed(2)}</Text>
-          <TouchableOpacity style={styles.checkoutButton} onPress={handleCheckout}>
-            <Text style={styles.checkoutButtonText}>Checkout</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      </SafeAreaView>
+
     </View>
   );
 }
@@ -87,6 +92,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     padding: 20,
+  },
+  safeArea: {
+    flex: 1,
+    padding: 20,
+    alignItems: 'center',
   },
   title: {
     fontSize: 24,
@@ -101,7 +111,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   totalOverallPrice: {
-    fontSize: 18,
+    fontSize: 25,
     fontWeight: 'bold',
     marginTop: 20,
   },

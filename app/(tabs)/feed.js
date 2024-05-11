@@ -12,7 +12,7 @@ const Feed = () => {
   const [data, setData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [userId, setUserId] = useState(null);
-  const [cartItemCount, setCartItemCount] = useState(0); 
+  const [cartItemCount, setCartItemCount] = useState(0);
 
   useEffect(() => {
     const auth = getAuth();
@@ -90,28 +90,29 @@ const Feed = () => {
           <Ionicons name="search" size={24} color="black" style={styles.searchIcon} />
           <Pressable onPress={handleAddToCart} style={styles.cartIcon}>
             <Ionicons name="cart" size={24} color="black" />
+            <Text></Text>
             {cartItemCount > 0 && <Text style={styles.cartItemCount}>{cartItemCount}</Text>}
           </Pressable>
         </View>
         <FlatList
           style={styles.productList}
           data={data}
-          numColumns={2}
+          numColumns={1}
           renderItem={({ item }) => (
-            <View style={[styles.productItem, { width: '50%' }]}>
+            <View style={[styles.productItem, { width: '95%' }]}>
               <Item
                 name={item.name}
                 price={item.price}
                 image={item.image}
-                userId={userId} 
-                cartItemCount={cartItemCount} 
-                setCartItemCount={setCartItemCount} 
+                userId={userId}
+                cartItemCount={cartItemCount}
+                setCartItemCount={setCartItemCount}
               />
             </View>
           )}
           ListEmptyComponent={<ActivityIndicator size="large" color="#0000ff" />}
         />
-        
+
       </SafeAreaView>
     </View>
   );
@@ -175,8 +176,21 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   productItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     padding: 10,
-    marginBottom: 10,
+    marginVertical: 5,
+    marginHorizontal: 10,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    elevation: 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    maxWidth: '100%', // Set the maximum width here
   },
   signOutButton: {
     backgroundColor: "#FF4500",
