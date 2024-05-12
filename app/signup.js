@@ -64,7 +64,7 @@ const SignUpPage = () => {
       };
       await addDoc(collection(db, "users"), userData);
 
-      router.push(`/feed?userId=${userId}&username=${username}&email=${email}`);
+      router.push(`/profile?userId=${userId}&username=${username}&email=${email}`);
     } catch (error) {
       console.error("Error signing up:", error.message);
       setError(error.message);

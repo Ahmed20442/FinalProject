@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
+import React, { useEffect, useState } from "react";
 import { db } from "../firebase/firebase";
 import { addDoc, collection, doc } from '@firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
