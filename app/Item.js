@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-
-import React, { useEffect, useState } from "react";
-=======
-import React, { useState } from "react";
->>>>>>> b002f05fbb9527d506465a0ab04e634f1ca38a80
 import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
 import { db } from "../firebase/firebase";
 import { addDoc, collection, doc } from '@firebase/firestore';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { router } from "expo-router";
 
 const screenWidth = Dimensions.get('window').width;
@@ -16,7 +9,7 @@ const screenWidth = Dimensions.get('window').width;
 const Item = ({ name, price, image, userId, cartItemCount, setCartItemCount }) => {
   const [quantity, setQuantity] = useState(1);
   const [rating, setRating] = useState(0);
-  const navigation = useNavigation();
+ 
 
   const addToCart = async () => {
     try {
@@ -52,7 +45,7 @@ const Item = ({ name, price, image, userId, cartItemCount, setCartItemCount }) =
 
   const handleRating = (ratingValue) => {
     setRating(ratingValue);
-    // You can handle the rating logic here, like submitting it to a database
+    
   };
 
   return (
