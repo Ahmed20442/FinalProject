@@ -1,4 +1,9 @@
+<<<<<<< HEAD
+
+import React, { useEffect, useState } from "react";
+=======
 import React, { useState } from "react";
+>>>>>>> b002f05fbb9527d506465a0ab04e634f1ca38a80
 import { StyleSheet, Text, View, Image, Dimensions, Pressable } from 'react-native';
 import { db } from "../firebase/firebase";
 import { addDoc, collection, doc } from '@firebase/firestore';
